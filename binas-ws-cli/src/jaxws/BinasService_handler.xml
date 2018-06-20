@@ -1,0 +1,25 @@
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+	<handler-chain>
+
+		<handler>
+			<handler-class>example.ws.handler.PrettyLogHandler</handler-class>
+		</handler>
+
+		<handler>
+			<handler-class>example.ws.handler.KerberosClientHandler</handler-class>
+		</handler>
+
+        <handler>
+			<handler-class>example.ws.handler.MACHandler</handler-class>
+		</handler>
+
+		<!-- <handler>
+			<handler-class>example.ws.handler.IntruderHandlerTest</handler-class>
+		</handler> -->
+
+		<handler>
+			<handler-class>example.ws.handler.PrettyLogHandler</handler-class>
+		</handler>
+
+	</handler-chain>
+</handler-chains>

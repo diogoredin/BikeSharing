@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+	<handler-chain>
+
+		<handler>
+			<handler-class>example.ws.handler.PrettyLogHandler</handler-class>
+		</handler>
+
+		<handler>
+			<handler-class>example.ws.handler.BinasAuthorizationHandler</handler-class>
+		</handler>
+
+		<handler>
+			<handler-class>example.ws.handler.KerberosServerHandler</handler-class>
+		</handler>
+
+		<handler>
+			<handler-class>example.ws.handler.MACHandler</handler-class>
+		</handler>
+
+		<handler>
+			<handler-class>example.ws.handler.PrettyLogHandler</handler-class>
+		</handler>
+
+	</handler-chain>
+</handler-chains>

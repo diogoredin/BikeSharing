@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- http://maven.apache.org/pom.html#Quick_Overview -->
+
+	<groupId>org.binas.T09</groupId>
+	<artifactId>station-ws</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>${project.artifactId}</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<mainclass>org.binas.station.ws.StationApp</mainclass>
+
+		<ws.i>1</ws.i>
+		<ws.host>localhost</ws.host>
+		<ws.port>808${ws.i}</ws.port>
+		<ws.url>http://${ws.host}:${ws.port}/station-ws/endpoint</ws.url>
+		<ws.name>T09_Station${ws.i}</ws.name>
+
+		<uddi.url>http://t09:TiRR649@uddi.sd.rnl.tecnico.ulisboa.pt:9090/</uddi.url>
+
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.2.10</version>
+		</dependency>
+        <dependency>
+            <groupId>pt.ulisboa.tecnico.sdis</groupId>
+            <artifactId>uddi-naming</artifactId>
+            <version>1.2</version>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>jks</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- http://www.mojohaus.org/jaxws-maven-plugin/wsimport-mojo.html -->
+					<wsdlDirectory>${basedir}/src/main/resources</wsdlDirectory>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.sun.xml.ws</groupId>
+						<artifactId>jaxws-tools</artifactId>
+						<version>2.2.10</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- to prevent deprecation warning: -->
+					<killAfter>-1</killAfter>
+					<mainClass>${mainclass}</mainClass>
+					<arguments>
+						<argument>${ws.name}</argument>
+						<argument>${ws.url}</argument>
+						<argument>${uddi.url}</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>2.0.0</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<programs>
+						<program>
+							<mainClass>${mainclass}</mainClass>
+							<id>${project.artifactId}</id>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
